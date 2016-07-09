@@ -14,7 +14,7 @@
       <h1 class="page-header">Wiki Pages:</h1>
       <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="wiki in $ctrl.wikis">
         <li><a ng-class="{'text-muted': wiki.active !== true}" ui-sref="wiki.view({name: wiki.name})"
-               uib-tooltip="{{wiki.info}}, {{wiki.created_at | relativeDate}}">
+               uib-tooltip="{{wiki.info}}, Revision({{wiki.revision}}), {{wiki.created_at | relativeDate}}">
           <span ng-if="wiki.active == true"> {{wiki.name}}</span>
           <s ng-if="wiki.active !== true">{{wiki.name}}</s></a></li>
       </ul>

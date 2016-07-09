@@ -14,5 +14,6 @@ router.patch('/:id', auth.hasRole('user'), controller.update);
 router.delete('/:id', auth.hasRole('user'), controller.destroy);
 
 router.get('/:wiki/talk', controller.talk);
+router.post('/:id/removeFile', auth.isAuthenticated(), controller.removeFile);
 
 module.exports = router;

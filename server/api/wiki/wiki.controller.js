@@ -79,20 +79,22 @@ export function index(req, res) {
       var queryParams = paginate(req, res, totalItems, maxRangeSize);
 
       return Wiki.aggregate()
+        .sort({created_at: -1, revision:-1})
         .group({
-          "_id": {"name": "$name" },
+          "_id": {"name": "$name"},
           "info": {"$first": "$info"},
           "active": {"$first": "$active"},
-          "created_at": {"$first": "$created_at"}
+          "revision": {"$max": "$revision"},
+          "created_at": {"$max": "$created_at"}
         })
         .project({
           "_id": 1,
           "name": "$_id.name",
           "info": 1,
           "active": 1,
+          "revision": 1,
           "created_at": 1
         })
-        .sort({created_at: -1, revision: -1})
         .limit(queryParams.limit)
         .skip(queryParams.skip)
         .exec();
@@ -126,6 +128,7 @@ export function create(req, res) {
   } else {
     req.body.revision = 1;
   }
+  req.body.created_at = new Date();
   req.body.author = {
     object: req.user._id,
     email: req.user.email,

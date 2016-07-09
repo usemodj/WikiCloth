@@ -7,7 +7,13 @@ function TalkService($resource) {
     //get
     //save
     //delete, remove
-    update: { method: 'PUT'}
+    update: { method: 'PUT'},
+    removeFile: {
+      method: 'POST',
+      params: {
+        controller: 'removeFile'
+      }
+    }
     //search: {
     //  method: 'POST',
     //  params: {

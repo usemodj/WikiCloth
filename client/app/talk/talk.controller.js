@@ -20,6 +20,7 @@
       this.comments = [];
       this.comment = {};
       this.files = [];
+      this.$scope.initialHeight = '38em';
 
       this.progress = 0;
       // Synchronous highlighting with highlight.js
@@ -77,12 +78,134 @@
         });
       }
     }
+
+    editTalk(comment){
+      this.submitted = true;
+      var self = this;
+      var modalInstance = this.$uibModal.open({
+        templateUrl: 'app/talk/talk.edit.html',
+        controller: EditTalkComponent,
+        controllerAs: '$ctrl',
+        windowClass: 'modal-lg',
+        size: 'lg',
+        resolve: {
+          comment: function(){
+            return angular.copy(comment);
+          }
+        }
+      });
+      modalInstance.result.then((edited) => {
+        edited.html = marked(edited.content);
+        comment.title = edited.title;
+        comment.content = edited.content;
+        comment.html = edited.html;
+        comment.files = angular.copy(edited.files);
+        this.saveEdited(edited);
+      }, () => {//dismiss
+
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    }
+
+    saveEdited(comment){
+      delete comment.$promise;
+
+      this.progress = 0;
+      this.Upload.upload({
+        url: `/api/comments/${comment._id}`,
+        method: 'PUT',
+        fields:{ comment: comment },
+        file: (comment.files !== null)? comment.files: null,
+        fileFormatDataName: 'file'
+      })
+        .progress((evt) => {
+          this.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+        })
+        .success((data, status, headers, config) => {
+          //this.$state.go('talk.list', {name: comment.wiki}, {reload: true});
+        })
+        .error((data, status, headers, config) => {
+          this.errors.other = data;
+        });
+    }
+
+    deleteTalk(comment){
+      this.submitted = true;
+      this.Talk.delete({id: comment._id}).$promise
+      .catch(err => {
+          this.errors.other = err.message || err.data || err;
+        });
+    }
   }
 
   angular.module('wikiClothApp')
     .component('talk', {
       templateUrl: 'app/talk/talk.html',
       controller: TalkComponent
+    });
+
+  class EditTalkComponent {
+    constructor(Auth, Talk, $uibModalInstance, comment, $scope, $state, $stateParams, $window) {
+      this.errors = {};
+      this.success = '';
+      this.isLoggedIn = Auth.isLoggedIn;
+      this.Talk = Talk;
+      this.$uibModalInstance = $uibModalInstance;
+      this.$scope = $scope;
+      this.$state = $state;
+      this.$stateParams = $stateParams;
+      this.$window = $window;
+      this.$scope.initialHeight = '38em';
+
+      this.comment = comment;
+      this.files = [];
+
+      $scope.$on('fileSelected', (event, args) => {
+        //console.log(args.file);
+        $scope.$apply(() => this.files.push(args.file));
+      });
+
+      this.$onInit();
+    }
+
+
+    $onInit() {
+
+    }
+
+    save(form){
+      this.submitted = true;
+      if(form.$valid) {
+        this.comment.files = this.files;
+        this.$uibModalInstance.close(this.comment);
+      }
+    }
+
+    cancel(){
+      this.$uibModalInstance.dismiss('cancel');
+    }
+
+    removeFile(file){
+      var files = this.comment.files;
+      if(files){
+        this.Talk.removeFile({_id: this.comment._id, uri: file.uri}).$promise
+          .then( () => {
+            files.splice(files.indexOf(file), 1);
+          })
+          .catch(err => {
+            this.errors.other = err.message || err;
+          });
+      }
+    }
+  }
+
+  angular.module('wikiClothApp')
+    //.controller('EditTalkComponent',EditTalkComponent);
+    .component('editTalk', {
+      templateUrl: 'app/talk/talk.edit.html',
+      controller: EditTalkComponent
     });
 
 })();

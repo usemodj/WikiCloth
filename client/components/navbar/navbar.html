@@ -18,7 +18,7 @@
         <li ng-show="nav.isLoggedIn() && $stateParams.name" ui-sref-active="active"><a class="btn-info" ui-sref="wiki.edit({name: $stateParams.name})">Edit</a></li>
         <li ng-show="nav.isLoggedIn() && $stateParams.name" ui-sref-active="active"><a class="btn-info" ui-sref="main">New Wiki</a></li>
         <li ng-show="$stateParams.name" ui-sref-active="active"><a ui-sref="wiki.history({name: $stateParams.name})">History</a></li>
-        <li ng-show="$stateParams.name" ui-sref-active="active"><a ui-sref="talk.list({name: $stateParams.name})">Talk</a></li>
+        <li ng-show="$stateParams.name" ui-sref-active="active"><a ui-sref="talk.list({name: $stateParams.name})">Talk/Upload</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">

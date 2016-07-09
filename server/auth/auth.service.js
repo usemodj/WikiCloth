@@ -28,6 +28,7 @@ export function isAuthenticated() {
     })
     // Attach user to request
     .use(function(req, res, next) {
+      if(!req.user || !req.user._id) return next();
       User.findById(req.user._id).exec()
         .then(user => {
           if (!user) {
@@ -56,7 +57,7 @@ export function authenticated() {
     })
     // Attach user to request
     .use(function(req, res, next) {
-      if(!req.user) return next();
+      if(!req.user || !req.user._id) return next();
       User.findById(req.user._id).exec()
         .then(user => {
           if (!user) {

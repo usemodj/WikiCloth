@@ -10,8 +10,9 @@
     </div>
     <div ng-show="$ctrl.Auth.isAdmin() || $ctrl.Auth.getCurrentUser().email == comment.author.email" class="well-xs text-right">
       <a class="btn btn-default btn-xs" ng-click="$ctrl.editTalk(comment)">Edit</a>
-      <a class="btn btn-default btn-xs" ng-confirm-click="Are you sure?" ng-click="vm.deleteTalk(comment)">Delete</a>
+      <a class="btn btn-default btn-xs" ng-click="$ctrl.deleteTalk(comment)">Delete</a>
     </div>
+    <hr/>
   </div>
   <form class="form" name="form" ng-submit="$ctrl.talk(form)" novalidate>
     <div class="col-lg-10 col-sm-10">
@@ -38,6 +39,5 @@
       </div>
     </div>
   </form>
-</div>
 
 </div>

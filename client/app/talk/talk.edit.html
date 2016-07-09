@@ -1,0 +1,36 @@
+
+<div class="container">
+  <form class="form" name="form" ng-submit="$ctrl.save(form)" novalidate>
+    <div class="col-lg-10 col-sm-10">
+      <h2>Edit Talk </h2>
+      <input class="form-control" placeholder="Title *"
+             name="title" ng-model="$ctrl.comment.title" required>
+      <textarea class="form-control" placeholder="Add a new comment here."
+                elastic ng-model="$ctrl.comment.content" markdown-editor></textarea>
+      <div class="btn-group" ng-repeat="file in $ctrl.comment.files track by $index">
+        <a class="btn btn-default btn-sm" ng-href="/assets/upload/{{file.uri}}" alt="{{file.name}}" target="attachment">
+          <i class="fa fa-file"></i> {{file.name}} ({{file.size}})
+        </a><a class="btn btn-default btn-sm"
+               ng-click="$ctrl.removeFile(file)" title="Remove '{{file.name}}'"><i class="fa fa-trash-o"></i></a>
+      </div>
+      <div inputfile></div>
+      <label class="label">
+        <div class="form-control has-info label-warning" ng-show="!$ctrl.isLoggedIn()"><a ui-sref="login"> Login is required for talk.</a></div>
+      </label>
+      <div class="text-center">
+        <input type="submit" class="btn" value="Save" ng-disabled="form.$invalid || !$ctrl.isLoggedIn()">
+        <button class="btn btn-default" ng-click="$ctrl.cancel()">Cancel</button>
+      </div>
+      <div class="form-group has-info" ng-show="$ctrl.progress">
+        <p class="help-block">Progress... {{ $ctrl.progress }}%</p>
+      </div>
+      <div class="form-group has-error" ng-show="$ctrl.errors">
+        <p class="help-block">{{ $ctrl.errors.other }}</p>
+      </div>
+      <div class="form-group has-success" ng-show="$ctrl.success">
+        <p class="help-block">{{ $ctrl.success }}</p>
+      </div>
+    </div>
+  </form>
+  <p/>
+</div>
