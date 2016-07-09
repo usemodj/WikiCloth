@@ -1,0 +1,40 @@
+
+<div class="container">
+  <h2>History: {{$ctrl.$stateParams.name}}</h2>
+  <form name="form" ng-submit="$ctrl.diff(form)" novalidate>
+    <label class="label form-group">
+      <input class="form-control btn-info" type="submit" value="Campare selected revisions">
+    </label>
+    <table class="table table-striped table-hover">
+      <thead>
+      <tr>
+        <th>Revision</th>
+        <th class="text-center">Old</th>
+        <th class="text-center">New</th>
+        <th>Info</th>
+        <th>Author</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="rev in $ctrl.revisions">
+        <td>{{rev.revision}}</td>
+        <td class="col-md-1"><input id="old-{{rev.revision}}" class="form-control" type="radio" name="old" ng-model="$ctrl.revision.old" ng-value="rev" ng-change="$ctrl.hideRadio(rev.revision)"></td>
+        <td class="col-md-1"><input id="{{rev.revision}}" class="form-control" type="radio" name="new" ng-model="$ctrl.revision.new" ng-value="rev"></td>
+        <td>{{rev.info}}</td>
+        <td>{{rev.author.name}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <label class="label form-group">
+      <input class="form-control btn-info" type="submit" value="Campare selected revisions">
+    </label>
+  </form>
+  <div class="row">
+    <div class="col-lg-10 col-sm-12 pull-right">
+      <bgf-pagination name="page" per-page="perPage" client-limit="clientLimit"
+                      url="url" url-params="urlParams" collection="$ctrl.revisions">
+      </bgf-pagination>
+    </div>
+  </div>
+
+</div>

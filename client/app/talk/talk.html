@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="panel col-lg-10 col-sm-10" ng-repeat="comment in $ctrl.comments">
+    <h3>{{comment.title}}</h3>
+    <div tooltip="{{comment.author.email}}">Written by {{comment.author.name}} {{comment.created_at | date:'yyyy-MM-dd hh:mm:ss'}}</div>
+    <div id="{{comment._id}}" class="panel-body" ng-bind-html="comment.html"></div>
+    <div class="btn-group" ng-repeat="file in comment.files track by $index">
+      <a class="btn btn-default btn-sm" ng-href="/assets/upload/{{file.uri}}" alt="{{file.name}}" target="attachment">
+        <i class="fa fa-file"></i> {{file.name}} ({{file.size}})
+      </a>
+    </div>
+    <div ng-show="$ctrl.Auth.isAdmin() || $ctrl.Auth.getCurrentUser().email == comment.author.email" class="well-xs text-right">
+      <a class="btn btn-default btn-xs" ng-click="$ctrl.editTalk(comment)">Edit</a>
+      <a class="btn btn-default btn-xs" ng-confirm-click="Are you sure?" ng-click="vm.deleteTalk(comment)">Delete</a>
+    </div>
+  </div>
+  <form class="form" name="form" ng-submit="$ctrl.talk(form)" novalidate>
+    <div class="col-lg-10 col-sm-10">
+      <label>Comments      </label>
+      <input class="form-control" placeholder="Title *"
+               name="title" ng-model="$ctrl.comment.title" required>
+      <textarea class="form-control" placeholder="Add a new comment here."
+               elastic ng-model="$ctrl.comment.content" markdown-editor></textarea>
+      <div inputfile></div>
+      <label class="label">
+        <div class="form-control has-info label-warning" ng-show="!$ctrl.isLoggedIn()"><a ui-sref="login"> Login is required for talk.</a></div>
+      </label>
+      <div class="pull-right">
+        <input type="submit" class="btn btn-primary" value="Add Comment" ng-disabled="form.$invalid || !$ctrl.isLoggedIn()">
+      </div>
+      <div class="form-group has-info" ng-show="$ctrl.progress">
+        <p class="help-block">Progress... {{ $ctrl.progress }}%</p>
+      </div>
+      <div class="form-group has-error" ng-show="$ctrl.errors">
+        <p class="help-block">{{ $ctrl.errors.other }}</p>
+      </div>
+      <div class="form-group has-success" ng-show="$ctrl.success">
+        <p class="help-block">{{ $ctrl.success }}</p>
+      </div>
+    </div>
+  </form>
+</div>
+
+</div>

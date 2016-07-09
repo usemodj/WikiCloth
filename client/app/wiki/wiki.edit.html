@@ -1,0 +1,19 @@
+
+<div class="container">
+  <h2>Edit Wiki: {{$ctrl.wiki.name}}</h2>
+  <form name="form" ng-submit="$ctrl.save(form)" novalidate>
+    <textarea name="content" markdown-editor elastic ng-model="$ctrl.wiki.content"></textarea>
+    <label class="form-group"> Info</label>
+    <input class="form-control" name="info" placeholder="Wiki Page Info" ng-model="$ctrl.wiki.info">
+
+    <label class="form-group"> Tags</label>
+    <input class="form-control" name="info" placeholder="Wiki Page Tags Comma Separator" ng-model="$ctrl.wiki.tags">
+
+    <label class="form-group">Active
+      <input class="form-control" name="active" type="checkbox" ng-model="$ctrl.wiki.active">
+    </label>
+    <hr/>
+    <button type="submit" class="btn" ng-disabled="form.$invalid || !form.$dirty">Submit</button>
+    <a class="btn" ui-sref="wiki.view({name: $ctrl.wiki.name})">Cancel</a>
+  </form>
+</div>

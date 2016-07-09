@@ -1,0 +1,57 @@
+<navbar></navbar>
+
+<header class="hero-unit" id="banner">
+  <div class="container">
+    <h1>WikiCloth</h1>
+    <p class="lead">Markdown Wiki Engine Web Framework</p>
+    <img src="assets/images/yeoman.png" alt="I'm WikiCloth">
+  </div>
+</header>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">Wiki Pages:</h1>
+      <ul class="nav nav-tabs nav-stacked col-md-4 col-lg-4 col-sm-6" ng-repeat="wiki in $ctrl.wikis">
+        <li><a ng-class="{'text-muted': wiki.active !== true}" ui-sref="wiki.view({name: wiki.name})"
+               uib-tooltip="{{wiki.info}}, {{wiki.created_at | relativeDate}}">
+          <span ng-if="wiki.active == true"> {{wiki.name}}</span>
+          <s ng-if="wiki.active !== true">{{wiki.name}}</s></a></li>
+      </ul>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-10 col-sm-12 pull-right">
+        <bgf-pagination name="page" per-page="perPage" client-limit="clientLimit"
+                        url="url" url-params="urlParams" collection="$ctrl.wikis">
+        </bgf-pagination>
+      </div>
+    </div>
+  </div>
+
+  <br/>
+  <br/>
+  <form name="form" ng-submit="$ctrl.save(form)" novalidate>
+    <label>Add a new wiki page</label>
+    <label class="label">
+      <div class="form-control has-info label-warning" ng-show="!$ctrl.isLoggedIn()"><a ui-sref="login"> Login is required for adding a new wiki page.</a></div>
+    </label>
+    <label class="label">
+      <input name="name" type="text" class="form-control" placeholder="New Wiki Page *"  ng-model="$ctrl.wiki.name" required>
+    </label>
+      <textarea name="content"  class="form-control" elastic markdown-editor ng-model="$ctrl.wiki.content" required></textarea>
+    <label class="label"> Info
+      <input class="form-control" name="info" placeholder="Wiki Page Info" ng-model="$ctrl.wiki.info">
+    </label>
+    <label class="label"> Tags
+      <input class="form-control" name="tags" placeholder="Wiki Page Tags Comma Separator" ng-model="$ctrl.wiki.tags">
+    </label>
+
+    <button type="submit" class="btn" ng-disabled="form.$invalid || !form.$dirty || !$ctrl.isLoggedIn()">Submit</button>
+    <label class="label">
+      <div class="form-control has-info label-warning" ng-show="!$ctrl.isLoggedIn()"><a ui-sref="login"> Login is required for adding a new wiki page.</a></div>
+    </label>
+  </form>
+</div>
+
+<footer></footer>
