@@ -11,17 +11,19 @@
         <th>Revision</th>
         <th class="text-center">Old</th>
         <th class="text-center">New</th>
+        <th>Active</th>
         <th>Info</th>
         <th>Author</th>
       </tr>
       </thead>
       <tbody>
       <tr ng-repeat="rev in $ctrl.revisions">
-        <td>{{rev.revision}}</td>
+        <td class="col-md-1">{{rev.revision}}</td>
         <td class="col-md-1"><input id="old-{{rev.revision}}" class="form-control" type="radio" name="old" ng-model="$ctrl.revision.old" ng-value="rev" ng-change="$ctrl.hideRadio(rev.revision)"></td>
         <td class="col-md-1"><input id="{{rev.revision}}" class="form-control" type="radio" name="new" ng-model="$ctrl.revision.new" ng-value="rev"></td>
+        <td class="col-md-1">{{rev.active}}</td>
         <td>{{rev.info}}</td>
-        <td>{{rev.author.name}}</td>
+        <td class="col-md-1">{{rev.author.name}}</td>
       </tr>
       </tbody>
     </table>

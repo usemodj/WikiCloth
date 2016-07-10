@@ -4,11 +4,12 @@
 
   class MainController {
 
-    constructor(Auth, Wiki, $scope, $state, $location, $window, socket) {
+    constructor(Auth, Wiki, $scope, $state, $stateParams, $location, $window, socket) {
       this.isLoggedIn = Auth.isLoggedIn;
       this.Wiki = Wiki;
       this.$scope = $scope;
       this.$state = $state;
+      this.$stateParams = $stateParams;
       this.$location = $location;
       this.$window = $window;
       this.socket = socket;
@@ -18,6 +19,7 @@
         name: '',
         content: ''
       };
+      this.q = $stateParams.q;
 
       $scope.$on('$destroy', function() {
         socket.unsyncUpdates('wiki');
@@ -40,7 +42,8 @@
       });
 
       this.$scope.urlParams = {
-        clientLimit: this.$scope.clientLimit
+        clientLimit: this.$scope.clientLimit,
+        q: this.q
       };
 
       this.$scope.url = `/api/wikis`;
@@ -64,6 +67,10 @@
             this.$state.go('wiki.view', {name: this.wiki.name});
           });
       }
+    }
+
+    search(form){
+      this.$window.location.href = `/search/${this.q}`;
     }
   }
 

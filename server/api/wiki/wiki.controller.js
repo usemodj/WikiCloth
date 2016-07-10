@@ -69,17 +69,36 @@ function handleError(res, statusCode) {
 // Gets a list of Wikis
 export function index(req, res) {
   var clientLimit = req.query.clientLimit;
-  Wiki.count().exec()
-    .then(count => {
-      if(count === 0){
+  var q = req.query.q;
+  var query = {};
+  if(q){
+    query = {'name': new RegExp(q, "i")};
+  }
+  Wiki.aggregate()
+    .match(query)
+    .group({
+      "_id": "$name"
+    })
+    .group({
+      "_id": null,
+      "count": {"$sum": 1}
+    })
+    .project({
+      "_id": 0,
+      "count": 1
+    })
+    .exec()
+    .then(result => {
+      if(result[0].count === 0){
         return [];
       }
-      var totalItems = count;
+      var totalItems = result[0].count;
       var maxRangeSize = clientLimit;
       var queryParams = paginate(req, res, totalItems, maxRangeSize);
 
       return Wiki.aggregate()
-        .sort({created_at: -1, revision:-1})
+        .match(query)
+        .sort({created_at: -1, revision: -1})
         .group({
           "_id": {"name": "$name"},
           "info": {"$first": "$info"},
@@ -95,6 +114,7 @@ export function index(req, res) {
           "revision": 1,
           "created_at": 1
         })
+        .sort({active: -1, created_at: -1, revision: -1})
         .limit(queryParams.limit)
         .skip(queryParams.skip)
         .exec();
