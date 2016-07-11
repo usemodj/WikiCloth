@@ -23,9 +23,10 @@ This project was generated with the [Angular Full-Stack Generator](https://githu
 
 4. Run `gulp serve` to start the development server. It should automatically open the client in your browser when ready.
 
-## Build & development
+## Build & production
+Change `start.sample.sh` to `start.sh` and  modify it.
 
-Run `grunt build` for building and `grunt serve` for preview.
+Run `gulp build` for building and `sh dist/start.sh` for preview.
 
 ## Testing
 
