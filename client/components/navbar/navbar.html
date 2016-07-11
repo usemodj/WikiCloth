@@ -25,8 +25,17 @@
         <li ng-hide="nav.isLoggedIn()" ui-sref-active="active"><a ui-sref="signup">Sign up</a></li>
         <li ng-hide="nav.isLoggedIn()" ui-sref-active="active"><a ui-sref="login">Login</a></li>
         <li ng-show="nav.isLoggedIn()"><p class="navbar-text">Hello {{ nav.getCurrentUser().name }}</p> </li>
-        <li ng-show="nav.isAdmin()" ui-sref-active="active"><a ui-sref="admin">Admin</a></li>
-        <li ng-show="nav.isLoggedIn()" ui-sref-active="active"><a ui-sref="settings"><span class="glyphicon glyphicon-cog"></span></a></li>
+        <li ng-show="nav.isLoggedIn()" ui-sref-active="active" class="dropdown pointer">
+          <a class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <span class="fa fa-dashboard fa-lg"></span>
+            <span class="hidden-tablet">Admin</span>
+            <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+            <li active-menu="settings"><a ui-sref="settings"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>
+            <li ng-class="{disabled:$state.includes('user')}" ng-show="nav.isAdmin()"><a ui-sref="user.list"><span class="fa fa-users"></span> Users</a></li>
+          </ul>
+        </li>
         <li ng-show="nav.isLoggedIn()"><a ui-sref="logout">Logout</a></li>
       </ul>
     </div>

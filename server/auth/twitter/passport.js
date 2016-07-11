@@ -11,6 +11,12 @@ export function setup(User, config) {
     User.findOne({'twitter.id': profile.id}).exec()
       .then(user => {
         if (user) {
+          if (user.active === false) {
+            return done(null, false, {
+              message: 'This email does not active.',
+              provider:user.provider
+            });
+          }
           return done(null, user);
         }
 

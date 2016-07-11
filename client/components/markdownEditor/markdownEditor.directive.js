@@ -11,9 +11,37 @@ angular.module('wikiClothApp')
           hiddenButtons: hiddenButtons,
           additionalButtons: [
             [{
+              name: 'groupLink',
+              data: [{
+                name: 'cmdWikiLink',
+                hotkey: 'Ctrl+W',
+                toggle: true,
+                title: 'Wiki Link',
+                icon: 'fa fa-file-word-o fa-lg',
+                callback: function(e){
+                  var chunk, cursor,
+                    selected = e.getSelection(), content = e.getContent();
+                  //transform selection and set cursor into chunked text
+                  if(selected.length === 0){
+                    //give extra word
+                    chunk = e.__localize('Wiki Link');
+                  } else {
+                    chunk = selected.text;
+                  }
+
+                  e.replaceSelection('[[' + chunk + ']]');
+                  cursor = selected.start + 2;
+
+                  //set the cursor
+                  e.setSelection(cursor, cursor + chunk.length);
+
+                }
+              }]
+            }, {
               name:'groupCustom',
               data: [{
                 name: 'cmdHelp',
+                hotkey: 'Ctrl+H',
                 toggle: true,
                 title: 'Help',
                 icon: 'glyphicon glyphicon-question-sign',

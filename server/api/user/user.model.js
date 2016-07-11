@@ -34,6 +34,7 @@ var UserSchema = new Schema({
       }
     }
   },
+  active: {type: Boolean, default: true},
   provider: String,
   salt: String,
   facebook: {},
@@ -52,7 +53,8 @@ UserSchema
   .get(function() {
     return {
       'name': this.name,
-      'role': this.role
+      'role': this.role,
+      'active': this.active
     };
   });
 

@@ -27,6 +27,7 @@ const paths = {
     client: {
         assets: `${clientPath}/assets/**/*`,
         images: `${clientPath}/assets/images/**/*`,
+        upload: `${clientPath}/assets/upload/**/*`,
         scripts: [
             `${clientPath}/**/!(*.spec|*.mock).js`,
             `!${clientPath}/bower_components/**/*`
@@ -574,12 +575,15 @@ gulp.task('copy:extras', () => {
 });
 
 gulp.task('copy:fonts', () => {
-    return gulp.src(`${clientPath}/bower_components/{bootstrap,font-awesome}/fonts/**/*`, { dot: true })
-        .pipe(gulp.dest(`${paths.dist}/${clientPath}/bower_components`));
+    gulp.src(`${clientPath}/bower_components/{bootstrap,font-awesome}/fonts/**/*`, {dot: true})
+      .pipe(gulp.dest(`${paths.dist}/${clientPath}/bower_components`));
+    gulp.src(`${clientPath}/bower_components/bootstrap-sass-official/assets/fonts/bootstrap/**/*`, {dot: true})
+      .pipe(gulp.dest(`${paths.dist}/${clientPath}/bower_components/bootstrap-sass-official/assets/fonts/bootstrap/`));
+
 });
 
 gulp.task('copy:assets', () => {
-    return gulp.src([paths.client.assets, '!' + paths.client.images])
+    return gulp.src([paths.client.assets, '!' + paths.client.images, '!' + paths.client.upload])
         .pipe(gulp.dest(`${paths.dist}/${clientPath}/assets`));
 });
 
@@ -587,7 +591,8 @@ gulp.task('copy:server', () => {
     return gulp.src([
         'package.json',
         'bower.json',
-        '.bowerrc'
+        '.bowerrc',
+        'start.sh'
     ], {cwdbase: true})
         .pipe(gulp.dest(paths.dist));
 });
@@ -632,7 +637,7 @@ gulp.task('webdriver_update', webdriver_update);
 gulp.task('test:e2e', ['env:all', 'env:test', 'start:server', 'webdriver_update'], cb => {
     gulp.src(paths.client.e2e)
         .pipe(protractor({
-            configFile: 'protractor.conf.js',
+            configFile: 'protractor.conf.js'
         })).on('error', err => {
             console.log(err)
         }).on('end', () => {

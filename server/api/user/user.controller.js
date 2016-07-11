@@ -1,9 +1,11 @@
 'use strict';
 
+import _ from 'lodash';
 import User from './user.model';
 import passport from 'passport';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
+import paginate from 'node-paginate-anything';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -24,9 +26,29 @@ function handleError(res, statusCode) {
  * restriction: 'admin'
  */
 export function index(req, res) {
-  return User.find({}, '-salt -password').exec()
-    .then(users => {
-      res.status(200).json(users);
+  var clientLimit = req.query.clientLimit;
+  var email = req.query.email;
+  var role = req.query.role;
+  var active = req.query.active;
+  var where = {};
+  if(email) where.email = new RegExp(email, 'i');
+  if(role) where.role = role;
+  if(active !== undefined) where.active = active;
+
+  return User.count(where).exec()
+  .then(count => {
+      if(count === 0){
+        return res.status(200).json([]);
+      }
+
+      var totalItems = count;
+      var maxRangeSize = clientLimit;
+      var queryParams = paginate(req, res, totalItems, maxRangeSize);
+      User.find(where, '-salt -password')
+        .limit(queryParams.limit).skip(queryParams.skip).sort('-created_at').exec()
+        .then(users => {
+          res.status(200).json(users);
+        });
     })
     .catch(handleError(res));
 }
@@ -62,6 +84,30 @@ export function show(req, res, next) {
       res.json(user.profile);
     })
     .catch(err => next(err));
+}
+
+/**
+ * Update a User
+ */
+export function update(req, res, next){
+  var userId = req.params.id;
+  if(req.body._id){
+    delete req.body._id;
+  }
+
+  return User.findById(userId).exec()
+    .then(user => {
+      if (!user) {
+        return res.status(404).end();
+      }
+      var updated = _.merge(user, req.body);
+      return updated.save()
+      .then(user => {
+          return res.json(user.profile);
+        });
+    })
+    .catch(err => next(err));
+
 }
 
 /**

@@ -4,8 +4,9 @@ public
 .sass-cache
 .idea
 client/bower_components
-client/assets/upload
+client/assets/upload/**
 dist
 /server/config/local.env.js
 npm-debug.log
 coverage
+start.sh

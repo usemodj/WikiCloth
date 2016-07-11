@@ -6,6 +6,11 @@
     return $resource('/api/users/:id/:controller', {
       id: '@_id'
     }, {
+      //query
+      //get
+      //save
+      //delete or remove
+      update: { method: 'PUT'},
       changePassword: {
         method: 'PUT',
         params: {

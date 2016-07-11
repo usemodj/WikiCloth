@@ -1,5 +1,5 @@
-$icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
-@import '../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
+$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+@import '../bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap';
 @import '../bower_components/bootstrap-social/bootstrap-social.scss';
 $fa-font-path: "../bower_components/font-awesome/fonts";
 @import '../bower_components/font-awesome/scss/font-awesome';
@@ -61,6 +61,7 @@ img {
   z-index: 3;
 }
 
+/* navbar dropdown menu */
 .navbar-static-top .nav .dropdown-menu {
   z-index:10002;
 }
@@ -163,6 +164,7 @@ div[data-toggle="buttons"] label:active, div[data-toggle="buttons"] label.active
 @import 'admin/admin';
 @import 'main/main';
 @import 'talk/talk';
+@import 'user/user';
 @import 'wiki/wiki';
 @import '../components/footer/footer';
 @import '../components/inputfile/inputfile';

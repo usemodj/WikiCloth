@@ -28,7 +28,8 @@ class LoginController {
           }
         })
         .catch(err => {
-          this.errors.other = `${err.message} ${err.provider}`;
+          var msg = err.message || err.data || err;
+          this.errors.other = `${msg} ${err.provider}`;
           if(err.provider){
             this.$window.location.href = '/auth/' + err.provider;
           }

@@ -8,9 +8,23 @@ function localAuthenticate(User, email, password, done) {
     .then(user => {
       if (!user) {
         return done(null, false, {
-          message: 'This email is not registered.'
+          message: 'This email is not registered.',
+          provider:user.provider
         });
       }
+      if (user.active === false) {
+        return done(null, false, {
+          message: 'This email does not active.',
+          provider:user.provider
+        });
+      }
+      if(user.provider !== 'local'){
+        return done(null, false, {
+          message: 'OAuth login is required.',
+          provider:user.provider
+        });
+      }
+
       user.authenticate(password, function(authError, authenticated) {
         if (authError) {
           return done(authError);

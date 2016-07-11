@@ -179,7 +179,6 @@
 
     $onInit() {
       var diff = this.diff;
-      console.log('>>diff: ', diff)
       var fragment = this.$window.document.createDocumentFragment();
       for (var i=0; i < diff.length; i++) {
 
@@ -211,8 +210,10 @@
   }
 
   angular.module('wikiClothApp')
-    .controller('DiffWikiComponent',DiffWikiComponent);
-
+    .component('diffWiki', {
+      templateUrl: 'app/wiki/wiki.diff.html',
+      controller: DiffWikiComponent
+    });
 
 })();
 

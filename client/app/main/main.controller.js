@@ -28,7 +28,7 @@
 
     $onInit() {
       var self = this;
-      this.$scope.perPage = parseInt(this.$location.search().perPage, 10) || 10;
+      this.$scope.perPage = parseInt(this.$location.search().perPage, 10) || 50;
       this.$scope.page = parseInt(this.$location.search().page, 10) || 0;
       this.$scope.clientLimit = 250;
 
