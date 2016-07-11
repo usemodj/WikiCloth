@@ -26,7 +26,7 @@ This project was generated with the [Angular Full-Stack Generator](https://githu
 ## Build & production
 Change `start.sample.sh` to `start.sh` and  modify it.
 
-Run `gulp build` for building and `sh dist/start.sh` for preview.
+Run `gulp build` for building and `sh dist/start.sh` for production mode.
 
 ## Testing
 
