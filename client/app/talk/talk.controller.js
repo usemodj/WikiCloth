@@ -72,6 +72,7 @@
         })
         .success((data, status, headers, config) => {
             //this.$state.go('talk.list',{name: this.comment.wiki}, {reload: true});
+            this.comment = {};
         })
         .error((data, status, headers, config) => {
           this.errors.other = data;
