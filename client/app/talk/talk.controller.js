@@ -20,7 +20,7 @@
       this.comments = [];
       this.comment = {};
       this.files = [];
-      this.$scope.initialHeight = '38em';
+      this.$scope.initialHeight = '28em';
 
       this.progress = 0;
       // Synchronous highlighting with highlight.js
