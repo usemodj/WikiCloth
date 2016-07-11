@@ -44,7 +44,6 @@
     $onInit(){
       this.$http.get(`/api/comments/${this.$stateParams.name}/talk`)
       .then(response => {
-          console.log(response);
           this.comments = response.data;
           this.socket.syncUpdates('comment', this.comments);
         });
@@ -55,10 +54,6 @@
       this.progress = 0;
       this.comment.wiki = this.$stateParams.name;
       this.comment.html = marked(this.comment.content || '');
-      //this.Talk.save(this.comment).$promise
-      //.then(response => {
-      //    //this.$state.go('talk.list',{name: this.comment.wiki}, {reload: true});
-      //  });
       if(form.$valid) {
         this.Upload.upload({
           url: '/api/comments',
