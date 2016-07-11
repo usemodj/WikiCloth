@@ -5,6 +5,11 @@
       <span ng-if="$ctrl.wiki.active == true"> {{$ctrl.wiki.name}}</span>
       <del ng-if="$ctrl.wiki.active !== true">{{$ctrl.wiki.name}}</del></a>
   </h2>
+  <div>
+    <span ng-repeat="tag in $ctrl.wiki.tags track by $index">
+      <a class="fa fa-tag" ui-sref="tag({tag: tag})">{{tag}}</a>
+    </span>
+  </div>
   <div ng-bind-html="$ctrl.wiki.content"></div>
 
 </div>

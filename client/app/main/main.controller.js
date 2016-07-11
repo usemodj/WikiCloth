@@ -46,7 +46,13 @@
         q: this.q
       };
 
-      this.$scope.url = `/api/wikis`;
+      var tag = this.$stateParams.tag;
+      if(tag){
+        this.$scope.url = `/api/wikis/${tag}/tag`;
+
+      } else {
+        this.$scope.url = '/api/wikis';
+      }
 
       this.$scope.$on('pagination:loadPage', function (event, status, config) {
         // config contains parameters of the page request

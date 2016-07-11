@@ -72,8 +72,69 @@ export function index(req, res) {
   var q = req.query.q;
   var query = {};
   if(q){
-    query = {'name': new RegExp(q, "i")};
+    query = {$or:[{'name': new RegExp(q, "i")},{'content': new RegExp(q, "i")},{'tags': new RegExp(q, "i")}]};
   }
+  Wiki.aggregate()
+    .match(query)
+    .group({
+      "_id": "$name"
+    })
+    .group({
+      "_id": null,
+      "count": {"$sum": 1}
+    })
+    .project({
+      "_id": 0,
+      "count": 1
+    })
+    .exec()
+    .then(result => {
+      if(result[0].count === 0){
+        return [];
+      }
+      var totalItems = result[0].count;
+      var maxRangeSize = clientLimit;
+      var queryParams = paginate(req, res, totalItems, maxRangeSize);
+
+      return Wiki.aggregate()
+        .match(query)
+        .sort({created_at: -1, revision: -1})
+        .group({
+          "_id": {"name": "$name"},
+          "info": {"$first": "$info"},
+          "active": {"$first": "$active"},
+          "revision": {"$max": "$revision"},
+          "created_at": {"$max": "$created_at"}
+        })
+        .project({
+          "_id": 1,
+          "name": "$_id.name",
+          "info": 1,
+          "active": 1,
+          "revision": 1,
+          "created_at": 1
+        })
+        .sort({active: -1, created_at: -1, revision: -1})
+        .limit(queryParams.limit)
+        .skip(queryParams.skip)
+        .exec();
+    })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+// Gets a list of Wikis of Tag
+export function tag(req, res) {
+  var tag = req.params.tag;
+  var clientLimit = req.query.clientLimit;
+  var q = req.query.q;
+  var query = {};
+  if(q){
+    query = {'tags':tag, $or:[{'name': new RegExp(q, "i")},{'content': new RegExp(q, "i")}]};
+  } else {
+    query = {'tags': tag};
+  }
+  console.log('>>tag: ', tag);
   Wiki.aggregate()
     .match(query)
     .group({
@@ -148,6 +209,11 @@ export function create(req, res) {
   } else {
     req.body.revision = 1;
   }
+
+  req.body.tags = (!req.body.tags)?
+    [] : (typeof req.body.tags === 'string')?
+    req.body.tags.trim().split(/\s*,\s*/): req.body.tags;
+
   req.body.created_at = new Date();
   req.body.author = {
     object: req.user._id,
@@ -164,6 +230,10 @@ export function update(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
+  req.body.tags = (!req.body.tags)?
+    [] : (typeof req.body.tags === 'string')?
+    req.body.tags.trim().split(/\s*,\s*/): req.body.tags;
+
   req.body.author = {
     object: req.user._id,
     email: req.user.email,

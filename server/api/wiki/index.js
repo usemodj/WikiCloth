@@ -14,5 +14,6 @@ router.patch('/:name', auth.hasRole('user'), controller.update);
 router.delete('/:name', auth.hasRole('user'), controller.destroy);
 
 router.get('/:name/revisions', controller.revisions);
+router.get('/:tag/tag', controller.tag);
 
 module.exports = router;

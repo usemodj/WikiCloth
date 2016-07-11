@@ -14,7 +14,7 @@ angular.module('wikiClothApp')
         template: '<wiki></wiki>'
       })
       .state('wiki.edit', {
-        authenticate: true,
+        authenticate: 'user',
         url: '/:name/edit',
         template: '<edit-wiki></edit-wiki>'
       })

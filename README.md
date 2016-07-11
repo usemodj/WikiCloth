@@ -31,3 +31,14 @@ Run `gulp build` for building and `sh dist/start.sh` for production mode.
 ## Testing
 
 Running `npm test` will run the unit tests with karma.
+
+
+## issue solution
+
+Running `sudo npm rebuild node-sass`
+
+> no such file or directory, scandir 'node_modules/node-sass/vendor'
+
+Running `sudo npm rebuild optipng`
+
+> 'node_modules/optipng-bin/vendor/optipng' ENOENT
