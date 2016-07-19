@@ -36,6 +36,25 @@ angular.module('wikiClothApp')
                   e.setSelection(cursor, cursor + chunk.length);
 
                 }
+              },{
+                name: 'cmdTOC',
+                hotkey: 'Ctrl+T',
+                toggle: false,
+                title: 'TOC (Table Of Contents)',
+                icon: 'fa fa-bookmark fa-lg',
+                callback: function(e){
+                  var chunk, cursor,
+                    selected = e.getSelection(), content = e.getContent();
+                  //transform selection and set cursor into chunked text
+                  //give extra word
+                  chunk = e.__localize('TOC');
+                  e.replaceSelection('[' + chunk + ']');
+                  cursor = selected.start;
+
+                  //set the cursor
+                  e.setSelection(cursor, cursor + chunk.length+2);
+
+                }
               }]
             }, {
               name:'groupCustom',
