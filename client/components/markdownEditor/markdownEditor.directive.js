@@ -135,12 +135,21 @@ angular.module('wikiClothApp')
               name:'groupCustom',
               data: [{
                 name: 'cmdHelp',
-                hotkey: 'Ctrl+H',
+                hotkey: 'Ctrl+Alt+H',
                 toggle: true,
-                title: 'Help',
+                title: 'Markdown Syntax Help',
                 icon: 'glyphicon glyphicon-question-sign',
                 callback: function(e){
                   $window.open('http://daringfireball.net/projects/markdown/syntax', '_blank');
+                }
+              },{
+                name: 'cmdMathHelp',
+                hotkey: 'Ctrl+Alt+M',
+                toggle: true,
+                title: 'MathJax Mathematics Help',
+                icon: 'fa fa-question-circle-o',
+                callback: function(e){
+                  $window.open('http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference', '_blank');
                 }
               }]
 
