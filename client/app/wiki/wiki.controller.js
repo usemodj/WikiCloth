@@ -3,13 +3,14 @@
 (function(){
 
   class WikiComponent {
-    constructor(Auth, Wiki, $scope, $state, $stateParams, socket) {
+    constructor(Auth, Wiki, $scope, $state, $stateParams, socket, $timeout) {
       this.isLoggedIn = Auth.isLoggedIn;
       this.Wiki = Wiki;
       this.$scope = $scope;
       this.$state = $state;
       this.$stateParams = $stateParams;
       this.socket = socket;
+      this.$timeout = $timeout;
       this.wiki = {name: ''};
       // Synchronous highlighting with highlight.js
       marked.setOptions({
@@ -24,7 +25,7 @@
 
       this.Wiki.get({name: this.wiki.name}).$promise
         .then(response => {
-          //console.log(response);
+          //console.log('>>response: ', response);
           this.wiki = response;
           this.wiki.content = marked(this.wiki.content);
         })

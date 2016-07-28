@@ -25,6 +25,18 @@
       <!-- injector:css -->
       <!-- endinjector -->
     <!-- endbuild -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }
+      });
+    </script>
   </head>
   <body ng-app="wikiClothApp">
     <!--[if lt IE 7]>
@@ -61,6 +73,7 @@
       <script src="bower_components/angular-socket-io/socket.js"></script>
       <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
       <script src="bower_components/angular-validation-match/dist/angular-validation-match.min.js"></script>
+      <script src="bower_components/MathJax/MathJax.js"></script>
       <script src="bower_components/bootstrap-markdown/js/bootstrap-markdown.js"></script>
       <script src="bower_components/marked/lib/marked.js"></script>
       <script src="bower_components/highlightjs/highlight.pack.js"></script>
@@ -106,6 +119,7 @@
       <script src="components/footer/footer.directive.js"></script>
       <script src="components/inputfile/inputfile.directive.js"></script>
       <script src="components/markdownEditor/markdownEditor.directive.js"></script>
+      <script src="components/mathjaxBind/mathjaxBind.directive.js"></script>
       <script src="components/modal/modal.service.js"></script>
       <script src="components/mongoose-error/mongoose-error.directive.js"></script>
       <script src="components/navbar/navbar.controller.js"></script>
