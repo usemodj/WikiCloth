@@ -579,6 +579,8 @@ gulp.task('copy:fonts', () => {
       .pipe(gulp.dest(`${paths.dist}/${clientPath}/bower_components`));
     gulp.src(`${clientPath}/bower_components/bootstrap-sass-official/assets/fonts/bootstrap/**/*`, {dot: true})
       .pipe(gulp.dest(`${paths.dist}/${clientPath}/bower_components/bootstrap-sass-official/assets/fonts/bootstrap/`));
+    gulp.src(`${clientPath}/bower_components/MathJax/{config,extensions,fonts,jax,localization}/**/*`, {dot: true})
+      .pipe(gulp.dest(`${paths.dist}/${clientPath}/`));
 
 });
 
