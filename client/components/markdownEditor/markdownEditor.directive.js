@@ -48,9 +48,9 @@ angular.module('wikiClothApp')
                   // Set the cursor
                   e.setSelection(cursor, cursor + chunk.length);
                 }
-              }, {
+              },{
                 name: 'cmdMath2',
-                hotkey: 'Ctrl+m',
+                hotkey: 'Ctrl+C',
                 title: 'Inline Mathematics',
                 icon: 'fa fa-superscript',
                 callback: function(e) {
@@ -79,6 +79,37 @@ angular.module('wikiClothApp')
                   } else {
                     e.replaceSelection('$' + chunk + '$');
                     cursor = selected.start + 1;
+                  }
+
+                  // Set the cursor
+                  e.setSelection(cursor, cursor + chunk.length);
+                }
+              },{
+                name: 'cmdNoWiki',
+                hotkey: 'Ctrl+N',
+                title: 'No Wiki text',
+                icon: 'fa fa-file-code-o',
+                callback: function(e) {
+                  // Give/remove ** surround the selection
+                  var chunk, cursor, selected = e.getSelection(),
+                    content = e.getContent();
+
+                  if (selected.length === 0) {
+                    // Give extra word
+                    chunk = e.__localize('no wiki text here');
+                  } else {
+                    chunk = selected.text;
+                  }
+
+                  // transform selection and set the cursor into chunked text
+                  if (content.substr(selected.start - 8, 8) === '<nowiki>' &&
+                    content.substr(selected.end, 9) === '</nowiki>') {
+                    e.setSelection(selected.start - 8, selected.end + 9);
+                    e.replaceSelection(chunk);
+                    cursor = selected.start - 8;
+                  } else {
+                    e.replaceSelection('<nowiki>' + chunk + '</nowiki>');
+                    cursor = selected.start + 8;
                   }
 
                   // Set the cursor
