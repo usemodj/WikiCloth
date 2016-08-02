@@ -121,7 +121,7 @@ angular.module('wikiClothApp')
                 data: [{
                   name: 'cmdWikiLink',
                   hotkey: 'Ctrl+W',
-                  toggle: true,
+                  toggle: false,
                   title: 'Wiki Link',
                   icon: 'fa fa-file-word-o fa-lg',
                   callback: function(e){
@@ -135,8 +135,16 @@ angular.module('wikiClothApp')
                       chunk = selected.text;
                     }
 
-                    e.replaceSelection('[[' + chunk + ']]');
-                    cursor = selected.start + 2;
+                    // transform selection and set the cursor into chunked text
+                    if (content.substr(selected.start - 2, 2) === '[[' &&
+                      content.substr(selected.end, 2) === ']]') {
+                      e.setSelection(selected.start - 2, selected.end + 2);
+                      e.replaceSelection(chunk);
+                      cursor = selected.start - 2;
+                    } else {
+                      e.replaceSelection('[[' + chunk + ']]');
+                      cursor = selected.start + 2;
+                    }
 
                     //set the cursor
                     e.setSelection(cursor, cursor + chunk.length);
@@ -151,14 +159,29 @@ angular.module('wikiClothApp')
                   callback: function(e){
                     var chunk, cursor,
                       selected = e.getSelection(), content = e.getContent();
+
                     //transform selection and set cursor into chunked text
-                    //give extra word
-                    chunk = e.__localize('TOC');
-                    e.replaceSelection('[' + chunk + ']');
-                    cursor = selected.start;
+                    //if(selected.length === 0){
+                      //give extra word
+                      chunk = e.__localize('TOC');
+                    //} else {
+                    //  chunk = selected.text;
+                    //}
+
+                    // transform selection and set the cursor into chunked text
+                    if (content.substr(selected.start - 1, 1) === '[' &&
+                      content.substr(selected.end, 1) === ']') {
+                      e.setSelection(selected.start - 1, selected.end + 1);
+                      e.replaceSelection('');
+                      cursor = selected.start - 1;
+                    } else {
+                      e.replaceSelection('[' + chunk + ']');
+                      cursor = selected.start + 1;
+                    }
+
 
                     //set the cursor
-                    e.setSelection(cursor, cursor + chunk.length+2);
+                    e.setSelection(cursor, cursor + chunk.length);
 
                   }
                 }]
