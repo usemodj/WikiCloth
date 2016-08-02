@@ -30,19 +30,19 @@ angular.module('wikiClothApp')
                   }
 
                   // transform selection and set the cursor into chunked text
-                  if (content.substr(selected.start - 2, 2) === '$$' &&
-                    content.substr(selected.end, 2) === '$$') {
-                    e.setSelection(selected.start - 2, selected.end + 2);
+                  if (content.substr(selected.start - 3,3) === '\n$$' &&
+                    content.substr(selected.end, 3) === '$$\n') {
+                    e.setSelection(selected.start - 3, selected.end + 3);
                     e.replaceSelection(chunk);
-                    cursor = selected.start - 2;
+                    cursor = selected.start - 3;
                   } else if (content.substr(selected.start - 1, 1) === '$' &&
                     content.substr(selected.end, 1) === '$') {
                     e.setSelection(selected.start - 1, selected.end + 1);
                     e.replaceSelection(chunk);
                     cursor = selected.start - 1;
                   } else {
-                    e.replaceSelection('$$' + chunk + '$$');
-                    cursor = selected.start + 2;
+                    e.replaceSelection('\n$$' + chunk + '$$\n');
+                    cursor = selected.start + 3;
                   }
 
                   // Set the cursor
