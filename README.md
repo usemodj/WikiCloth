@@ -42,3 +42,15 @@ Running `sudo npm rebuild node-sass`
 Running `sudo npm rebuild optipng`
 
 > 'node_modules/optipng-bin/vendor/optipng' ENOENT
+
+
+## Oauth login
+- Log in with Facebook: https://developers.facebook.com/docs/facebook-login
+ facebook callbackURL: process.env.DOMAIN + '/auth/facebook/callback'
+
+- Log in with Twitter: https://apps.twitter.com
+ twitter callbackURL: process.env.DOMAIN + '/auth/twitter/callback'
+
+- Log in with Google: https://console.developers.google.com
+ google callbackURL: process.env.DOMAIN + '/auth/google/callback'
+
