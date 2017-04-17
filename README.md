@@ -1,4 +1,13 @@
 # wiki-cloth
+WikiCloth is a Wiki engine to create and edit a web page. It uses the Markdown syntax for plain text and the MathJax LaTeX syntax for the mathematical symbols.
+
+As it operates as a web server, you can view the web pages created by any web browser, and edit a web page while logged in.
+
+You can receive comments on each web page, then upload the files you can see the uploaded files in a Web page.
+
+Each web page can compare the edited contents having changed history.
+
+
 
 This project was generated with the [Angular Full-Stack Generator](https://github.com/DaftMonk/generator-angular-fullstack) version 3.7.6.
 
