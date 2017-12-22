@@ -240,11 +240,15 @@ UserSchema.methods = {
     var salt = new Buffer(this.salt, 'base64');
 
     if (!callback) {
-      return crypto.pbkdf2Sync(password, salt, defaultIterations, defaultKeyLength)
-                   .toString('base64');
+     // Provides a synchronous Password-Based Key Derivation Function 2 (PBKDF2) implementation.
+     // <https://nodejs.org/api/crypto.html#crypto_crypto_pbkdf2sync_password_salt_iterations_keylen_digest>
+     return crypto.pbkdf2Sync(password, salt, defaultIterations, defaultKeyLength, 'sha512')
+                  .toString('hex');
     }
 
-    return crypto.pbkdf2(password, salt, defaultIterations, defaultKeyLength, (err, key) => {
+    // Provides an asynchronous Password-Based Key Derivation Function 2 (PBKDF2) implementation.
+    // <https://nodejs.org/api/crypto.html#crypto_crypto_pbkdf2_password_salt_iterations_keylen_digest_callback>
+    return crypto.pbkdf2(password, salt, defaultIterations, defaultKeyLength, 'sha512', (err, key) => {
       if (err) {
         callback(err);
       } else {

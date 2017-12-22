@@ -5,10 +5,22 @@
 'use strict';
 
 import express from 'express';
-import mongoose from 'mongoose';
-mongoose.Promise = require('bluebird');
 import config from './config/environment';
 import http from 'http';
+import mongoose from 'mongoose';
+import {Promise} from 'bluebird';
+
+// fix for event emitters / memory leak error
+// https://github.com/npm/npm/issues/13806
+require('events').EventEmitter.defaultMaxListeners = Infinity;
+
+// change mongoose to use NodeJS global promises to supress promise deprication warning.
+// and to use NodeJS's Promises.
+// https://github.com/Automattic/mongoose/issues/4291
+// mongoose.Promise = global.Promise;
+
+// Use `bluebird` as default Promise Library
+mongoose.Promise = Promise;
 
 // Connect to MongoDB
 mongoose.connect(config.mongo.uri, config.mongo.options);
