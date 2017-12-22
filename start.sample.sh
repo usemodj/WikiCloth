@@ -12,4 +12,4 @@ TWITTER_ID='app-id' \
 TWITTER_SECRET='secret' \
 GOOGLE_ID='app-id' \
 GOOGLE_SECRET='secret' \
-pm2 start $(dirname "$0")/server --name "wikicloth"
+pm2 start $(dirname "$0")/dist/server --name "wikicloth"
