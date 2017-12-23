@@ -2,6 +2,7 @@
   "name": "WikiCloth",
   "version": "1.0.0",
   "main": "server/app.js",
+
   "dependencies": {
     "async": "^2.0.0-rc.6",
     "babel-polyfill": "^6.7.2",
